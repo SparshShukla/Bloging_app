@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-
+import { createBlogPost, updateBlogPost } from "@sparsh_shukla/medium-common";
 export const blogRouter = new Hono<{
   Bindings: {
     // Bindings are used to define "type" of a particular environment variable in TS in Hono
@@ -10,6 +10,7 @@ export const blogRouter = new Hono<{
     JWT_SECRET_KEY: string;
   };
   Variables: {
+    // this is used to set a variable type which we will define later in the code so that TS does not recognize when it declared
     authorId: string;
   };
 }>();
@@ -35,6 +36,13 @@ blogRouter.post("/", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
+  const success = createBlogPost.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      msg: "Wrong input",
+    });
+  }
   const userId = c.get("authorId");
   const blog = await prisma.post.create({
     data: {
@@ -57,6 +65,13 @@ blogRouter.put("/", async (c) => {
 
   try {
     const body = await c.req.json();
+    const success = updateBlogPost.safeParse(body);
+    if (!success) {
+      c.status(411);
+      return c.json({
+        msg: "Wrong input",
+      });
+    }
     const blog = prisma.post.update({
       where: {
         id: body.id,
