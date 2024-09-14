@@ -10,7 +10,7 @@ export const blogRouter = new Hono<{
     JWT_SECRET_KEY: string;
   };
   Variables: {
-    authorId: any;
+    authorId: string;
   };
 }>();
 
@@ -25,32 +25,29 @@ blogRouter.use(async (c, next) => {
       error: "Unauthorized",
     });
   }
-  c.set("authorId", response.id);
+  c.set("authorId", response.id.id);
   await next();
 });
 
 blogRouter.post("/", async (c) => {
+  console.log(2);
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
-  try {
-    const body = await c.req.json();
-    const blog = prisma.post.create({
-      data: {
-        title: body.title,
-        content: body.content,
-        authorId: "1",
-      },
-    });
-    return c.json({
-      id: body.id,
-    });
-  } catch (e) {
-    c.status(411);
-    return c.json({
-      msg: "Error while uploading!! Try Again",
-    });
-  }
+  const body = await c.req.json();
+  const userId = c.get("authorId");
+  const blog = await prisma.post.create({
+    data: {
+      title: body.title,
+      content: body.content,
+      authorId: userId,
+    },
+  });
+  console.log(blog);
+  console.log(12);
+  return c.json({
+    id: blog.id,
+  });
 });
 
 blogRouter.put("/", async (c) => {
@@ -69,6 +66,7 @@ blogRouter.put("/", async (c) => {
         content: body.content,
       },
     });
+    console.log(blog);
     return c.json({
       id: body.id,
     });
@@ -79,43 +77,28 @@ blogRouter.put("/", async (c) => {
     });
   }
 });
-blogRouter.get("/:id", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    const id = c.req.param("id");
-    const blog = prisma.post.findUnique({
-      where: {
-        id: id,
-      },
-    });
-    return c.json({
-      blog,
-    });
-  } catch (e) {
-    c.status(411);
-    return c.json({
-      msg: "Error while fetching",
-    });
-  }
-});
-
-// Apply "pagination" to give first 10 blogs and if user request then provide with other
 
 blogRouter.get("/bulk", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
 
-  try {
-    const blogs = await prisma.post.findMany();
-    return c.json({
-      blogs,
-    });
-  } catch (e) {
-    c.status(404);
-    return c.text("Error while fetching");
-  }
+  const blogs = await prisma.post.findMany();
+  console.log(blogs);
+  return c.json(blogs);
 });
+
+blogRouter.get("/:id", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const id = c.req.param("id");
+  const blog = await prisma.post.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return c.json(blog);
+});
+
+// Apply "pagination" to give first 10 blogs and if user request then provide with other
