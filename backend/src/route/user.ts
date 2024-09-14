@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { sign } from "hono/jwt";
+import { signinInput, signupInput } from "@sparsh_shukla/medium-common";
 export const userRouter = new Hono<{
   Bindings: {
     // Bindings are used to define "type" of a particular environment variable in TS in Hono
@@ -15,6 +16,13 @@ userRouter.post("/signup", async (c) => {
   }).$extends(withAccelerate());
 
   const body = await c.req.json();
+  const { success } = signupInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      msg: "Invalid input",
+    });
+  }
   const userId = await prisma.user.create({
     data: {
       email: body.email,
@@ -35,6 +43,13 @@ userRouter.post("/signin", async (c) => {
   }).$extends(withAccelerate());
 
   const body = await c.req.json();
+  const { success } = signinInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json({
+      msg: "Invalid input",
+    });
+  }
   const check = await prisma.user.findUnique({
     where: {
       email: body.email,

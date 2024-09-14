@@ -36,7 +36,7 @@ blogRouter.post("/", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
   const body = await c.req.json();
-  const success = createBlogPost.safeParse(body);
+  const { success } = createBlogPost.safeParse(body);
   if (!success) {
     c.status(411);
     return c.json({
@@ -65,7 +65,7 @@ blogRouter.put("/", async (c) => {
 
   try {
     const body = await c.req.json();
-    const success = updateBlogPost.safeParse(body);
+    const { success } = updateBlogPost.safeParse(body);
     if (!success) {
       c.status(411);
       return c.json({
