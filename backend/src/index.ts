@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { userRouter } from "./route/user";
 import { blogRouter } from "./route/blog";
-
+import { cors } from "hono/cors";
 // hono-jwt for Jsonweb token authentication
 // library to connect to connection pool rather then directly connecting to the dB
 
@@ -14,6 +14,7 @@ const app = new Hono<{
 }>();
 
 // Middleware
+app.use("/*", cors());
 app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 

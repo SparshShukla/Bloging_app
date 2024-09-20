@@ -45,7 +45,7 @@ userRouter.post("/signin", async (c) => {
   const body = await c.req.json();
   const { success } = signinInput.safeParse(body);
   if (!success) {
-    c.status(411);
+    c.status(401);
     return c.json({
       msg: "Invalid input",
     });
@@ -63,7 +63,6 @@ userRouter.post("/signin", async (c) => {
     });
   }
   const jwt_Token = await sign({ id: check.id }, c.env.JWT_SECRET_KEY);
-  return c.json({
-    jwt: jwt_Token,
-  });
+  console.log(jwt_Token);
+  return c.json(jwt_Token);
 });
