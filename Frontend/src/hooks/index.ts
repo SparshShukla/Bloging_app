@@ -12,20 +12,19 @@ interface Blog {
 export const useBlogs = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(false);
-  console.log(`${Backend_URL}/api/v1/blog/bulk`);
-  console.log(localStorage.getItem("token"));
   useEffect(() => {
-    axios
-      .get(`${Backend_URL}/api/v1/blog/bulk`, {
+    const fetchBlogs = async () => {
+      setLoading(true);
+      const response = await axios.get(`${Backend_URL}/api/v1/blog/bulk`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      })
-      .then((response) => {
-        setBlogs(response.data);
-        console.log(response);
-        setLoading(false);
       });
+
+      setBlogs(response.data);
+      setLoading(false);
+    };
+    fetchBlogs();
   }, []);
   return {
     loading,

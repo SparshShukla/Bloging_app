@@ -63,6 +63,5 @@ userRouter.post("/signin", async (c) => {
     });
   }
   const jwt_Token = await sign({ id: check.id }, c.env.JWT_SECRET_KEY);
-  console.log(jwt_Token);
   return c.json(jwt_Token);
 });

@@ -3,7 +3,7 @@ import z from "zod";
 export const signupInput = z.object({
   email: z.string().email(),
   password: z.string(),
-  name: z.string().optional(),
+  name: z.string(),
 });
 
 export const signinInput = z.object({
@@ -19,7 +19,7 @@ export const createBlogPost = z.object({
 export const updateBlogPost = z.object({
   title: z.string(),
   content: z.string(),
-  id: z.string(),
+  id: z.number(),
 });
 
 // type inference of zod to use in frontend check

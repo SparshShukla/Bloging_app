@@ -8,7 +8,7 @@
     "@100xdevs/medium-common": "^1.0.0",
     "@prisma/client": "^5.19.1",
     "@prisma/extension-accelerate": "^1.1.0",
-    "@sparsh_shukla/medium-common": "^1.0.4",
+    "@sparsh_shukla/medium-common": "^2.1.1",
     "@types/jsonwebtoken": "^9.0.6",
     "hono": "^4.6.1",
     "prisma": "^5.19.1"
