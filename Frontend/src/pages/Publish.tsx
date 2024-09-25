@@ -9,7 +9,7 @@ export const Publish = () => {
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent the form from reloading the page
     try {
       const response = await axios.post(
