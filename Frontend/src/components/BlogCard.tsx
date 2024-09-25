@@ -5,16 +5,17 @@ interface BlogCardInterface {
   title: string;
   content: string;
   publishedDate: string;
-  id: number;
+  id: string;
 }
 export const Blogcard = ({
   authName,
   title,
   content,
   publishedDate,
+  id,
 }: BlogCardInterface) => {
   return (
-    <Link to={`/blog/&{id}`}>
+    <Link to={`/blog/${id}`}>
       <div className="border-b-2 pb-4 border-slate-200 pt-3">
         <div className="flex ">
           <div className="flex justify-center flex-col pt-1">
