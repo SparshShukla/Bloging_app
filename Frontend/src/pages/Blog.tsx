@@ -3,7 +3,7 @@ import { Avatar } from "../components/BlogCard";
 import { Skeleton } from "../components/Skeleton";
 import { useBlog } from "../hooks";
 import { useParams } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
+
 export const Blog = () => {
   const { id } = useParams();
   const { loading, blog } = useBlog({
@@ -28,7 +28,7 @@ export const Blog = () => {
             {blog?.author.name}
           </div>
           <div className="pt-7 text-balance indent-14 pb-10">
-            <ReactMarkdown>{blog?.content}</ReactMarkdown>
+            {blog?.content}
           </div>
         </div>
       </div>

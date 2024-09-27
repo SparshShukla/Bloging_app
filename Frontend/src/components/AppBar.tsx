@@ -1,17 +1,18 @@
 import { Avatar } from "./BlogCard";
-import { useBlogs } from "../hooks";
 import { Link } from "react-router-dom";
 export const Appbar = () => {
-  const { blogs } = useBlogs();
-  let s = blogs[0];
-  console.log(s);
-
   return (
     <div className="border-b flex justify-between px-10 py-4">
-      <Link to={"/blogs"}>
-        <div className="text-4xl">Medium</div>
+      <Link to={"/"}>
+        <div className="flex">
+          <img
+            src="https://icdl.org/wp-content/uploads/2019/06/Coding-Principles-Icon.png"
+            className="h-12 pr-3 pl-3 font-mono "
+            alt="Blogify Logo"
+          />
+          <button className="text-4xl">Blogify</button>
+        </div>
       </Link>
-
       <div className="flex pt-1">
         <div className="pr-10">
           <Link to={"/publish"}>

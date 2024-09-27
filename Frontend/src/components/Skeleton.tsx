@@ -19,9 +19,9 @@ export const Skeleton = () => {
 
 const Skel = () => {
   return (
-    <div className="grid grid-cols-9 pt-6 ">
+    <div className="flex grid grid-cols-9 pt-6">
       <div className="col-start-3 col-span-5">
-        <div className="border border-blue-100 shadow rounded-md p-4 max-w-sm max-w-full mx-auto">
+        <div className="border border-blue-100 shadow rounded-md p-4">
           <div className="animate-pulse flex space-x-4">
             <div className="rounded-full bg-slate-400 h-10 w-10"></div>
             <div className="flex-1 space-y-10 py-1">

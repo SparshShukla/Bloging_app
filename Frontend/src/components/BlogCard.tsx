@@ -34,8 +34,8 @@ export const Blogcard = ({
           </div>
         </div>
         <div className="font-semibold text-xl pt-2">{title}</div>
-        <div className="font-thin text-md  pt-1 line-clamp-3">{content}</div>
-        <div className="pt-6 text-sm text-slate-400 font-normal">
+        <div className="font-thin text-md  pt-2 line-clamp-3">{content}</div>
+        <div className="pt-5 text-sm text-slate-400 font-normal">
           {Math.ceil(content.length / 1000 + 1) + " min read"}
         </div>
       </div>
@@ -52,9 +52,12 @@ export function Avatar({
   authName: string;
   size?: number;
 }) {
+  const sizeClass =
+    size === 6 ? "w-6 h-6" : size === 10 ? "w-10 h-10" : `w-${size} h-${size}`;
+
   return (
     <div
-      className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-300 rounded-full w-${size} h-${size}`}
+      className={`relative inline-flex items-center justify-center overflow-hidden bg-gray-300 rounded-full ${sizeClass}`}
     >
       <span className={`${size === 6 ? "text-xs" : "text-xl"} text-gray-800`}>
         {authName.toUpperCase()[0]}
